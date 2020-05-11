@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="ie=edge" http-equiv="X-UA-Comaptible">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/cyborg/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/caeda0ea6d.js" crossorigin="anonymous"></script>
+    <title>WatchList</title>
+</head>
+<body>
+    <div class="container mt-5">
+         <h1 class="display-4 text-center">
+             Watch<span class="text-danger">List</span>
+         </h1>
+
+        <form id="movie-form" class="row justify-content-center">
+            <div id="al" class="w-100"></div>
+            <div class="form-group col-md-6">
+                <input id="title" class="form-control form-control-lg" type="text" placeholder="Input movie title here">
+            </div>
+            <div class="w-100"></div>
+            <div class="col-md-6">
+                <input type="submit" class="btn btn-outline-danger btn-block btn-lg" value="Add movie to the WatchList">
+            </div>
+        </form>
+
+        <div class="row mt-3" id="movieContainer">
+
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
