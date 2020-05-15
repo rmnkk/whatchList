@@ -131,23 +131,26 @@ document.querySelector('#movie-form').addEventListener('submit', (e) => {
     const title = document.querySelector('#title').value;
 
 
+    if (image) {
+        // Instantiate Movie
+        const movie = new Movie(title, image)
 
-    // Instantiate Movie
-    const movie = new Movie(title, image)
+        console.log(movie);
 
-    console.log(movie);
+        // Clears input field
+        UI.clearField()
 
-    // Clears input field
-    UI.clearField()
+        // Add Movie to UI
+        UI.addMovie(movie)
 
-    // Add Movie to UI
-    UI.addMovie(movie)
+        // Add movie to localStorage
+        Store.addMovieToStore(movie)
 
-    // Add movie to localStorage
-    Store.addMovieToStore(movie)
+        // Show alert for successfully adding Movie to the list
+        UI.showAlert('The movie has been successfully added', 'success')
+    }
 
-    // Show alert for successfully adding Movie to the list
-    UI.showAlert('The movie has been successfully added', 'success')
+
 
 })
 // Event Remove Movie
