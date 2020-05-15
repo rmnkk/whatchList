@@ -2,10 +2,9 @@ const movieContainer = document.querySelector('#movieContainer');
 
 // Class to represent a Movie
 class Movie {
-    constructor(title, img, ind) {
+    constructor(title, img) {
         this.title = title;
         this.img = img;
-        this.ind = ind
     }
 }
 
@@ -29,7 +28,7 @@ class UI {
             <div class="card h-100">
                 <img class="card-img-top" src="${movie.img}" alt="Movie Title">
                 <div class="card-body">
-                        <p class="card-text" id="title">${movie.ind} ${movie.title}</p>
+                        <p class="card-text" id="title"> ${movie.title}</p>
                        
                 </div>
                 <button type="button" class="btn btn-danger delete">Delete Movie</button>
@@ -90,11 +89,11 @@ class Store {
     }
 
     // Delete movie form localStorage
-    static removeMovie(ind) {
-        console.log(ind);
+    static removeMovie(img) {
+        //console.log(img);
         const movies = Store.getMovies()
         movies.forEach((movie, index) => {
-            if (movie.ind == ind) {
+            if (movie.img === img) {
                 console.log(true);
                 movies.splice(index, 1)
             }
@@ -106,9 +105,8 @@ class Store {
 
 // Event get value for image
 let image;
-let i= 0;
 document.querySelector('#title').addEventListener('input', (e) => {
-    console.log(e.target.value);
+    //console.log(e.target.value);
     async function returnImage() {
             let resp = await fetch(`http://omdbapi.com/?t=${e.target.value}&apikey=2067d7db`)
             let data = await resp.json();
@@ -135,7 +133,7 @@ document.querySelector('#movie-form').addEventListener('submit', (e) => {
 
 
     // Instantiate Movie
-    const movie = new Movie(title, image, i++)
+    const movie = new Movie(title, image)
 
     console.log(movie);
 
@@ -154,15 +152,18 @@ document.querySelector('#movie-form').addEventListener('submit', (e) => {
 })
 // Event Remove Movie
 movieContainer.addEventListener('click', (e) => {
-
+   if (e.target.classList.contains('delete')) {
     //Remove movie from UI
-   UI.deleteMovie(e.target)
+    UI.deleteMovie(e.target)
 
     // Remove movie from localStorage
-    Store.removeMovie(e.target.previousElementSibling.textContent)
-    console.log(e.target.previousElementSibling.textContent);
+
+    Store.removeMovie(e.target.parentElement.querySelector('.card-img-top').src)
+    console.log(e.target.parentElement.querySelector('.card-img-top').src);
 
     // Show alert
-    // UI.showAlert('The movie has been successfully deleted', 'danger')
+    UI.showAlert('The movie has been successfully deleted', 'danger')
+   }
+
 })
 
