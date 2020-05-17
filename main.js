@@ -93,7 +93,7 @@ class Store {
         //console.log(img);
         const movies = Store.getMovies()
         movies.forEach((movie, index) => {
-            if (movie.img === img) {
+            if (movie.img === img || movie.img === 'N/A') {
                 console.log(true);
                 movies.splice(index, 1)
             }
@@ -130,7 +130,7 @@ document.querySelector('#movie-form').addEventListener('submit', (e) => {
     // Get the value from input
     const title = document.querySelector('#title').value;
 
-
+    // checks if poster fro the movie is available and after that add movie to the container
     if (image) {
         // Instantiate Movie
         const movie = new Movie(title, image)
@@ -150,6 +150,11 @@ document.querySelector('#movie-form').addEventListener('submit', (e) => {
         UI.showAlert('The movie has been successfully added', 'success')
     }
 
+    // If poster for the movie is unavailable show alert
+    if (!image) {
+        UI.showAlert('Sorry, poster fot the movie is unavailable', 'danger')
+        UI.clearField()
+    }
 
 
 })
