@@ -108,7 +108,7 @@ let image;
 document.querySelector('#title').addEventListener('input', (e) => {
     //console.log(e.target.value);
     async function returnImage() {
-            let resp = await fetch(`http://omdbapi.com/?t=${e.target.value}&apikey=2067d7db`)
+            let resp = await fetch(`https://omdbapi.com/?t=${e.target.value}&apikey=2067d7db`)
             let data = await resp.json();
             return data
         }
