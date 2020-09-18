@@ -15,6 +15,7 @@ class UI {
 
         const movies = Store.getMovies();
 
+
         movies.forEach((movie) => UI.addMovie(movie))
 
     }
@@ -58,8 +59,8 @@ class UI {
         const movieForm = document.querySelector('#movie-form')
         const before = document.querySelector('#al')
         movieForm.insertBefore(div, before)
-        //remove alert after 3 seconds
-        setTimeout(() => document.querySelector('.alert').remove(), 3000)
+        //remove alert after 0.5 seconds
+        setTimeout(() => document.querySelector('.alert').remove(), 500)
     }
 }
 
@@ -83,6 +84,10 @@ class Store {
     static addMovieToStore(movie) {
         const movies = Store.getMovies()
 
+        if (movies.some(film => film.title === movie.title)) {
+            return;
+        }
+
         movies.push(movie)
 
         localStorage.setItem('movies', JSON.stringify(movies))
@@ -90,11 +95,9 @@ class Store {
 
     // Delete movie form localStorage
     static removeMovie(img) {
-        //console.log(img);
         const movies = Store.getMovies()
         movies.forEach((movie, index) => {
             if (movie.img === img || movie.img === 'N/A') {
-                console.log(true);
                 movies.splice(index, 1)
             }
         })
@@ -106,15 +109,14 @@ class Store {
 // Event get value for image
 let image;
 document.querySelector('#title').addEventListener('input', (e) => {
-    //console.log(e.target.value);
     async function returnImage() {
-            let resp = await fetch(`https://omdbapi.com/?t=${e.target.value}&apikey=2067d7db`)
-            let data = await resp.json();
-            return data
-        }
+        let resp = await fetch(`http://omdbapi.com/?t=${e.target.value}&apikey=2067d7db`)
 
-        returnImage()
-            .then(data => image = data.Poster);
+        return await resp.json()
+    }
+
+    returnImage()
+        .then(data => image = data.Poster);
 
 
 })
@@ -135,12 +137,15 @@ document.querySelector('#movie-form').addEventListener('submit', (e) => {
         // Instantiate Movie
         const movie = new Movie(title, image)
 
-        console.log(movie);
-
         // Clears input field
         UI.clearField()
 
         // Add Movie to UI
+        const movies = Store.getMovies()
+
+        if (movies.some(film => film.title === movie.title)) {
+            return;
+        }
         UI.addMovie(movie)
 
         // Add movie to localStorage
